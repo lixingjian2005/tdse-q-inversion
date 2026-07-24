@@ -134,8 +134,8 @@ def _grid_binning(
     mask = weight_grid > 0
     q_hat_grid[mask] /= weight_grid[mask]
 
-    # Gaussian smoothing to fill gaps (σ = 1.5 pixels)
-    sigma_pix = 1.5
+    # Gaussian smoothing to fill gaps (σ = 0.8 pixels — mild)
+    sigma_pix = 0.8
     q_hat_grid = (
         gaussian_filter(np.real(q_hat_grid), sigma_pix) +
         1j * gaussian_filter(np.imag(q_hat_grid), sigma_pix)

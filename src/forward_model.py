@@ -117,17 +117,7 @@ def forward_pass(
 
     P(k_m, τ_j) = Σ_{p,q} Q(α_p, α_q) · K(k_m, τ_j | α_p, α_q) · Δα²
 
-    Args:
-        q_grid: Q values [N_α, N_α]
-        alpha_min, alpha_max: α grid limits
-        tau_array: τ grid [N_τ]
-        k_array: k grid [N_k]
-        kappa, omega, nir_cycles: kernel vector params
-        k0: field-free momentum
-        sigma_k: momentum broadening
-
-    Returns:
-        P(k,τ) array [N_τ, N_k]
+    Optimized: processes k in chunks to avoid [N_k × N_α × N_α] arrays.
     """
     n_alpha = q_grid.shape[0]
     n_tau = len(tau_array)
@@ -143,12 +133,30 @@ def forward_pass(
 
     # Output
     p_result = np.zeros((n_tau, n_k))
+    prefactor = 1.0 / (np.sqrt(2.0 * np.pi) * sigma_k)
 
+    # Process k in chunks to manage memory
+    k_chunk_size = 64
     for j in range(n_tau):
-        K = gaussian_kernel(k_array, j, alpha_R, alpha_I, kv, k0, sigma_k)
-        # Integrate over α: Σ K·Q·Δα²
-        integral = np.sum(K * q_grid[np.newaxis, :, :], axis=(1, 2))  # [N_k]
-        p_result[j, :] = integral * d_alpha ** 2
+        kv_j = kv[j]  # [2]
+        # k_center for all α: [N_α, N_α]
+        dot = kv_j[0] * alpha_R + kv_j[1] * alpha_I
+        k_center = k0 - dot  # [N_α, N_α]
+
+        # Integrate over k in chunks
+        for k_start in range(0, n_k, k_chunk_size):
+            k_end = min(k_start + k_chunk_size, n_k)
+            k_chunk = k_array[k_start:k_end, np.newaxis, np.newaxis]  # [C, 1, 1]
+
+            diff = k_chunk - k_center[np.newaxis, :, :]  # [C, N_a, N_a]
+            kernel_vals = prefactor * np.exp(-0.5 * (diff / sigma_k) ** 2)
+
+            # Integrate over α
+            p_result[j, k_start:k_end] = np.sum(
+                kernel_vals * q_grid[np.newaxis, :, :], axis=(1, 2)
+            )
+
+        p_result[j, :] *= d_alpha ** 2
 
     return p_result
 

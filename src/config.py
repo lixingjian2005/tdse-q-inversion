@@ -77,6 +77,9 @@ class NumericsParams:
     n_alpha: int = 128
     """Real-space Q(α) grid size per side"""
 
+    alpha_max: float = -1.0
+    """Real-space half-width for Q(α) grid. Auto-computed from xi_max if negative."""
+
     omega_k_max: float = -1.0
     """Cutoff frequency (a.u.). Auto-computed from SNR if negative."""
 
@@ -352,10 +355,13 @@ class QInvConfig:
         self.xi_max = self.omega_k_max * kappa_max
 
         # Real-space Q grid
-        # Δα = 2π / (2·ξ_max)  (Nyquist in real space)
-        self.d_alpha = math.pi / self.xi_max if self.xi_max > 0 else 1.0
+        if n.alpha_max > 0:
+            # User-specified alpha range
+            self.d_alpha = 2.0 * n.alpha_max / (n.n_alpha - 1) if n.n_alpha > 1 else 1.0
+        else:
+            # Δα = 2π / (2·ξ_max)  (Nyquist in real space)
+            self.d_alpha = math.pi / self.xi_max if self.xi_max > 0 else 1.0
 
-        # alpha grid: symmetric about origin, width n_alpha*d_alpha
         half_width = n.n_alpha * self.d_alpha / 2.0
         self.alpha_grid = (-half_width, half_width, n.n_alpha)
 

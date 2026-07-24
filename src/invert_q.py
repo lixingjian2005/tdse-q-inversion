@@ -145,7 +145,7 @@ def run_pipeline(
         q_hat_grid, xi_max,
         n_alpha, alpha_min, alpha_max,
     )
-    q_recon = soft_threshold(q_recon)
+    q_recon = soft_threshold(q_recon, d_alpha=config.d_alpha)
 
     # ── 5. Reconstruct P for residual check ─────────────────────────
 

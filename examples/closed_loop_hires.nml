@@ -2,7 +2,7 @@
   nir_omega = 0.057
   nir_e0 = 0.04
   k0 = 1.0
-  sigma_k = 0.08
+  sigma_k = 0.05
   ip = 0.5
   use_diagonal = .true.
   nir_cycles = 4.0
@@ -14,18 +14,17 @@
   n_tau_cycles = 1
   n_xi = 128
   n_alpha = 128
-  snr_p = 100.0
+  snr_p = 1000.0
   snr_q_target = 10.0
   interp_method = 'bin'
   regularize = 'cutoff'
-  omega_k_max = 12.0
-  alpha_max = 4.0
+  omega_k_max = 25.0
 /
 
 &io
   input_file = ''
   input_format = 'synthetic'
   output_dir = './output'
-  output_prefix = 'closed_loop_test'
+  output_prefix = 'closed_loop_hires'
   plot = .true.
 /

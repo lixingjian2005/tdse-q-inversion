@@ -42,20 +42,24 @@ def tikhonov_damping(
 def soft_threshold(
     q_real: NDArray,
     threshold: float = 1e-8,
+    d_alpha: float = 1.0,
 ) -> NDArray:
     """Remove small negative/noise values from real-space Q.
+
+    Preserves integral normalization: ∫ Q d²α = 1.
 
     Args:
         q_real: Q(α) array
         threshold: values below this are zeroed
+        d_alpha: grid spacing (for normalization)
 
     Returns:
         Cleaned Q
     """
     q = np.maximum(q_real, 0.0)
     q[q < threshold] = 0.0
-    # Re-normalize
-    s = np.sum(q)
-    if s > 0:
-        q /= s
+    # Re-normalize preserving integral: ∫ Q d²α = Σ Q · dα² = 1
+    total = np.sum(q) * d_alpha ** 2
+    if total > 0:
+        q /= total
     return q
