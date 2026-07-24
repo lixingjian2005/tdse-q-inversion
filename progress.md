@@ -14,7 +14,7 @@
 - [x] 工程实施方案文档（inversion_engineering.tex/pdf）完成
 - [x] Python venv 创建，numpy/scipy/matplotlib 安装
 - [x] requirements.txt 创建
-- [ ] config.py — namelist 参数系统
+- [x] config.py — namelist 参数系统 (IO 组引号解析有已知小 bug)
 - [ ] forward_model.py — 解析核正向模型
 - [ ] transform.py — 1D FFT + 去模糊 + 截断
 - [ ] gridding.py — Fourier 空间网格化
