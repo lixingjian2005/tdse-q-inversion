@@ -2,7 +2,7 @@
 
 ## 当前状态
 
-**阶段：v1.0 最小可行实现**
+**v1.0 完成** — closed-loop 验证通过
 
 ## 开发日志
 
@@ -10,20 +10,35 @@
 
 - [x] 项目目录结构建立
 - [x] README.md 完成
-- [x] 理论推导文档（Q函数重建_v3_完整论证）收录
-- [x] 工程实施方案文档（inversion_engineering.tex/pdf）完成
-- [x] Python venv 创建，numpy/scipy/matplotlib 安装
-- [x] requirements.txt 创建
-- [x] config.py — namelist 参数系统 (IO 组引号解析有已知小 bug)
-- [ ] forward_model.py — 解析核正向模型
-- [ ] transform.py — 1D FFT + 去模糊 + 截断
-- [ ] gridding.py — Fourier 空间网格化
-- [ ] reconstruct.py — 2D IFFT → Q(α)
-- [ ] regularize.py — 截断/Tikhonov 正则化
-- [ ] io_data.py — 数据读写
-- [ ] diagnostics.py — 诊断报告
-- [ ] invert_q.py — 主入口 + CLI
-- [ ] closed-loop 测试通过
+- [x] 理论推导文档收录
+- [x] 工程实施方案文档完成
+- [x] Python venv + requirements.txt
+- [x] **v1.0 核心流水线完成，closed-loop 验证通过**
+
+### Closed-loop 验证结果
+
+| 分布 | L2 误差 | 峰值偏移 | Q 峰值比 | 前向残差 |
+|------|---------|----------|----------|----------|
+| coherent (α=3) | 9.6% | 0.14 a.u. | 93% | 0.34% |
+| thermal (n̄=1) | 10.7% | 0.18 a.u. | 106% | 0.27% |
+| BSV (r=2) | 20.0% | 0.18 a.u. | 113% | 0.58% |
+
+参数: N_τ=128, N_k=256, N_ξ=128, ω_k^max=12, α_max=4, σ_k=0.08
+
+### 已修复的关键 Bug
+
+1. **fft2 vs ifft2**：物理需要 exp(-iξ·α)，用 fft2 而非 ifft2
+2. **FFT 网格坐标**：实空间范围为 [-π/dξ, π/dξ] 而非 [-ξ_max, ξ_max]
+3. **soft_threshold 归一化**：应保留积分 ∫Q d²α=1（sum·dα²），而非 sum(Q)=1
+4. **deblur 溢出**：在 exp(+ω²σ²/2) 之前先截断高频
+5. **前向模型内存**：k-chunking 避免 [N_k × N_α × N_α] 大数组
+
+### 已知限制
+
+1. IO 组引号解析有 bug（输出路径默认值问题）
+2. Fourier 覆盖率 17-30%，限制空间分辨率
+3. BSV 重建误差偏高（需要更高覆盖率或迭代方法）
+4. 未对接 v5.1 真实数据
 
 ## 设计决策记录
 
@@ -31,3 +46,4 @@
 2. 参数系统用 namelist 风格（与 v5.1 一致）
 3. v1.0 仅做对角近似 + 截断正则化
 4. 先 closed-loop 验证，再对接 v5.1 真实数据
+5. ω_k^max 和 alpha_max 应显式设定以平衡分辨率与覆盖率
