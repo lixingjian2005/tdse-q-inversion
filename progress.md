@@ -15,6 +15,9 @@
 - [x] **非对角修正框架** (off_diagonal.py)
 - [x] **v5.1 数据对接** (--mode file, 读取 9 列格式)
 - [x] **v5.1 兼容参数配置** (1600nm NIR)
+- [ ] **v5.1 128-tau 单相干运行** — 后台运行中 (~7h, 最小网格, GPU)
+  - 配置: n_elem=8, l_max=3, n_k=50, n_theta=31, 平面波投影
+  - alpha=(2,0), 权重=1.0, 输出到 projects/run_v51_coh_128tau/
 
 ### Closed-loop 验证结果 (优化后)
 
