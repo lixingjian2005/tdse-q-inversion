@@ -1,0 +1,456 @@
+\documentclass[12pt,a4paper]{ctexart}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,longtable,array,multirow}
+\usepackage{xcolor,hyperref}
+\usepackage{fancyhdr,enumitem}
+\usepackage{tcolorbox}
+\usepackage{bm}
+
+\pagestyle{fancy}\fancyhf{}\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small Q函数重建·完整论证}
+\fancyhead[R]{\small Attosecond Streaking}
+
+\newtcolorbox{approxbox}{colback=yellow!5,colframe=yellow!60!black,
+    title=\textbf{近似},fonttitle=\bfseries}
+\newtcolorbox{refbox}{colback=green!4,colframe=green!50!black,
+    title=\textbf{引用},fonttitle=\bfseries}
+\newtcolorbox{keybox}{colback=blue!3,colframe=blue!50!black,
+    title=\textbf{关键等式},fonttitle=\bfseries}
+
+\begin{document}
+
+\title{从 streaking 动量谱反演 Q 函数\\[4pt]\large 基于 Eq (27) 的完整论证链}
+\author{Attosecond Streaking Project}
+\date{2026-07-24 · v3}
+
+\maketitle
+
+\tableofcontents
+
+\section{前置说明}
+
+本文从新项目理论文档的 Eq (27)\footnote{以下将新项目理论文档简记为 [TD]。该文档为新项目内部理论框架，非公开文献。Eq (27) 出现在 [TD] §9。} 出发，构建一条从 $\texttt{spectrum}(k,\tau) \to \texttt{Q-function}(\alpha)$ 的反演论证链。
+
+\textbf{论证要求：}
+\begin{enumerate}[nosep]
+  \item[(R1)] 每步推导必须要么从基本公式直接计算得到，要么给出明确的参考文献和公式对应
+  \item[(R2)] 每个近似必须显式标注，附近似条件，并在文末统一整理
+  \item[(R3)] 最终产出是一个「通用方案」——不限于特定正则化或数值参数
+\end{enumerate}
+
+\section{论证的第 0 层：Eq (27) 及其各个符号的定义}
+
+\subsection{Eq (27)}
+
+[TD] Eq (27) 的表达式为：
+
+\begin{equation}\label{eq:start}
+P(k;\tau) = \iint_{\mathbb{C}^2} d^2\alpha\,d^2\beta\;
+P_N(\alpha,\beta^*)\;
+A_\alpha(k;\tau)\,
+A_\beta^*(k;\tau)
+\end{equation}
+
+这是连续形式。Eq (28) 是其离散化版本 $P = \sum_{i,j} W_{ij} A_i A_j^*$，两者在连续极限下等价。
+
+\subsection{各符号的逐一定义}
+
+\begin{center}
+\begin{tabular}{p{2cm}p{4.5cm}p{6cm}}
+\toprule
+\textbf{符号} & \textbf{定义} & \textbf{来源} \\
+\midrule
+$k$ & 电子动量的模（或矢量大小）& 实验可观测量 \\
+$\tau$ & XUV-NIR 延迟 & 实验控制量 \\
+$A_\alpha(k;\tau)$ & 相干态 $|\alpha\rangle$ 驱动下电子的跃迁振幅 & [TD] Eq (26): $A_\alpha = \langle\chi_k^{(-)}|\phi_\alpha(t_f;\tau)\rangle$ \\
+$P_N(\alpha,\beta^*)$ & NIR 场在相干态基下的广义 Glauber-Sudarshan P 表示 & [TD] Eq (9): $\rho_N(0) = \iint d^2\alpha d^2\beta\, P_N(\alpha,\beta^*)\,|\alpha\rangle\langle\beta|/\langle\beta|\alpha\rangle$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{广义 P 表示的对角元与 Q 函数的关系}
+
+对于任意的单模量子态 $\rho_N$，其 Husimi Q 函数定义为：
+
+\begin{equation}\label{eq:Qdef}
+Q(\alpha) \equiv \frac{1}{\pi}\langle\alpha|\rho_N|\alpha\rangle
+\end{equation}
+
+将 Eq (9) 代入：$\langle\alpha|\rho_N|\alpha\rangle = \pi \, P_N(\alpha,\alpha)$\footnote{推导：$\langle\alpha|\rho_N|\alpha\rangle = \iint d^2\gamma d^2\delta\,P_N(\gamma,\delta^*)\,\langle\alpha|\gamma\rangle\langle\delta|\alpha\rangle/\langle\delta|\gamma\rangle$。利用 $\langle\alpha|\gamma\rangle = \exp(-\frac12|\alpha|^2-\frac12|\gamma|^2+\alpha^*\gamma)$，在 $\gamma=\delta=\alpha$ 附近做鞍点展开。领头阶给出 $\langle\alpha|\rho_N|\alpha\rangle = \pi P_N(\alpha,\alpha)$。严格证明见 Glauber, Phys. Rev. 131, 2766 (1963), Eq (4.12)。}。
+
+因此：
+
+\begin{keybox}
+\[
+\boxed{Q(\alpha) = P_N(\alpha,\alpha)}
+\]
+Husimi Q 函数就是 P 表示的对角元。这是将频谱 $P(k,\tau)$ 连接到 $Q(\alpha)$ 的核心桥梁。
+\end{keybox}
+
+\subsection{$A_\alpha(k;\tau)$ 的来源：参数化 TDSE}
+
+[TD] §6 给出参数化 TDSE（Eq 18）：
+
+\begin{equation}\label{eq:paramTDSE}
+i\hbar\,\frac{\partial}{\partial t}\,|\phi_\alpha(t;\tau)\rangle
+= \bigl[H_A + ez\bigl(E_\alpha(t) + E_X^{\text{cl}}(t-\tau)\bigr)\bigr]\,|\phi_\alpha(t;\tau)\rangle
+\end{equation}
+
+其中 $E_\alpha(t) = 2\mathcal{E}_N(\alpha_x\sin\omega_N t + \alpha_y\cos\omega_N t)$（[TD] Eq 12），$E_X^{\text{cl}}$ 是半经典 XUV 脉冲（[TD] §3）。
+
+Eq (26): $A_\alpha(k;\tau) = \langle\chi_k^{(-)}|\phi_\alpha(t_f;\tau)\rangle$，其中 $\chi_k^{(-)}$ 是出射边界条件的连续态（[TD] §10 列出五个近似层级）。
+
+\section{论证的第 1 层：Eq (27) 的对角分离}
+
+\subsection{推导}
+
+将积分区域分成 $\alpha=\beta$ 和 $\alpha\neq\beta$：
+
+\begin{equation}\label{eq:split}
+P(k;\tau) = \underbrace{\int_{\mathbb{C}} d^2\alpha\;P_N(\alpha,\alpha)\;|A_\alpha(k;\tau)|^2}_{P_{\text{diag}}(k;\tau)}
+\;+\;
+\underbrace{\iint_{\alpha\neq\beta} d^2\alpha d^2\beta\;P_N(\alpha,\beta^*)\;A_\alpha A_\beta^*}_{P_{\text{off}}(k;\tau)}
+\end{equation}
+
+\subsection{对角项的简化}
+
+由 Eq (\ref{eq:Qdef}) 的结论 $P_N(\alpha,\alpha) = Q(\alpha)$，直接得到：
+
+\begin{equation}\label{eq:diag}
+\boxed{P_{\text{diag}}(k;\tau) = \int d^2\alpha\; Q(\alpha)\; \underbrace{|A_\alpha(k;\tau)|^2}_{K(k,\tau|\alpha)}}
+\end{equation}
+
+\textbf{无需任何近似。} 这是 Eq (27) 的精确对角部分。
+
+\subsection{非对角项的暂时搁置}
+
+\begin{approxbox}
+\textbf{近似 A1 —— 对角近似。} 忽略 $P_{\text{off}}$，保留 $P_{\text{diag}}$ 作为 $P$ 的近似：
+\[
+P(k;\tau) \approx P_{\text{diag}}(k;\tau) = \int d^2\alpha\; Q(\alpha)\;|A_\alpha(k;\tau)|^2
+\]
+\textbf{条件：} 对目标量子态（BSV），非对角权重 $|W_{ij}|$（$i\neq j$）在动量谱中的可观测贡献远小于对角项。量级估计见 [TD] discussion.md 问题 2；针对 BSV，$P_{\text{off}}$ 的典型贡献 $\sim O(e^{-r})$（$r$ 为压缩参数），后续需数值验证确认。
+
+\textbf{本推导的处理方式：} 将 $P_{\text{off}}$ 保留为 $\epsilon_{\text{off}}(k,\tau)$，在最终的重建误差中作系统偏差项处理。以下推导默认 $P_{\text{off}}$ 已被减去或可忽略。
+\end{approxbox}
+
+\section{论证的第 2 层：$|A_\alpha(k;\tau)|^2$ 的解析结构}
+
+\subsection{SFA 振幅的一般形式}
+
+采用强场近似（SFA）\footnote{Lewenstein et al., Phys. Rev. A 49, 2117 (1994) [LHM94], Eq (8).} 的最简单形式：忽略基态消耗和激发态贡献，跃迁振幅写为从基态 $|g\rangle$ 到 Volkov 态 $|\mathbf{k}\rangle$ 的单次电离积分：
+
+\begin{equation}\label{eq:sfa}
+A_\alpha^{\text{SFA}}(k;\tau) = -i\int_{-\infty}^{t_f} dt\;
+\langle\mathbf{k}+A_\alpha(t)|\; ez\cdot E_X^{\text{cl}}(t-\tau)\;|g\rangle\;
+\exp\!\left[i\int_t^{t_f} dt'\,\Bigl(\tfrac12(\mathbf{k}+A_\alpha(t'))^2 + I_p\Bigr)\right]
+\end{equation}
+
+其中 $A_\alpha(t)$ 是 NIR 场的矢势（[TD] Eq 19-20），$I_p$ 是电离势。
+
+\begin{refbox}
+\textbf{与参考文献的对应：} 式 (\ref{eq:sfa}) 就是 LHM94 Eq (8) 在单活跃电子、线偏振、仅保留基态贡献、且用长度规范偶极矩阵元时的形式。符号对应：$A(t) \to A_\alpha(t)$，$E(t) \to E_X^{\text{cl}}(t-\tau)$。
+\end{refbox}
+
+\subsection{鞍点近似}
+
+式 (\ref{eq:sfa}) 的被积函数是快振荡函数。作鞍点近似\footnote{严格推导见 N. Bleistein \& R. A. Handelsman, \textit{Asymptotic Expansions of Integrals} (Dover, 1986), §7.1--§7.3。}。
+
+定义相位函数：
+\begin{equation}\label{eq:phase}
+S(k,t;\alpha) \equiv \int_t^{t_f} dt'\,\Bigl(\tfrac12(k+A_\alpha(t'))^2 + I_p\Bigr)
+\end{equation}
+
+鞍点 $t_s$ 满足 $\partial S/\partial t|_{t_s} = 0$，即：
+\begin{equation}\label{eq:saddle}
+\tfrac12(k + A_\alpha(t_s))^2 + I_p = 0
+\quad\Longrightarrow\quad
+k \approx -A_\alpha(t_s) \pm \sqrt{-2I_p}
+\end{equation}
+
+在 $t_s$ 附近做二阶 Taylor 展开：
+\begin{equation}
+S(k,t;\alpha) \approx S(k,t_s;\alpha) + \tfrac12 S''(k,t_s;\alpha)\,(t-t_s)^2
+\end{equation}
+其中 $S''(t_s) \equiv \partial^2 S/\partial t^2|_{t_s}$。
+
+对时间积分做 Gaussian 驻相积分\footnote{$\int_{-\infty}^{\infty} dt\,e^{i a t^2/2} = \sqrt{2\pi i/a}$。}，得：
+
+\begin{equation}\label{eq:sfa-stationary}
+\boxed{A_\alpha(k;\tau) \approx \sqrt{\frac{2\pi i}{S''(t_s)}}\;
+d\bigl(k + A_\alpha(t_s)\bigr)\;
+E_X^{\text{cl}}(t_s-\tau)\;
+e^{i S(k,t_s;\alpha)}}
+\end{equation}
+
+\subsection{核函数 $K(k,\tau|\alpha) = |A_\alpha|^2$}
+
+取模平方，相位 $e^{iS}$ 相消：
+
+\begin{equation}\label{eq:kernel-full}
+\boxed{
+K(k,\tau|\alpha) = |d(k+A_\alpha(t_s))|^2\;
+|E_X^{\text{cl}}(t_s-\tau)|^2\;
+\frac{2\pi}{|S''(t_s)|}\;
+\exp\!\left[-\frac{(k - k_s(\alpha,\tau))^2}{2\sigma_k^2}\right]
+}
+\end{equation}
+
+各项含义：
+\begin{enumerate}[nosep]
+  \item $|d|^2$：偶极矩阵元的模平方，量纲 $[L^3]$
+  \item $|E_X^{\text{cl}}|^2$：XUV 脉冲包络的强度
+  \item $2\pi/|S''|$：鞍点 Jacobian，量纲 $[T]$
+  \item $k_s(\alpha,\tau)$：经典动量中心，详见表 \ref{tab:kernel-params}
+  \item $\sigma_k$：动量展宽，来源为鞍点二阶导数的贡献，详见表 \ref{tab:kernel-params}
+\end{enumerate}
+
+\begin{approxbox}
+\textbf{近似 A2 —— 鞍点近似（二阶截断）。} 式 (\ref{eq:sfa-stationary}) 将时间积分的完整驻相展开截断到二阶。条件：$|S'''/S''^2| \ll 1$ 且 $\tau_X \gg 1/\omega_X$（XUV 周期远小于脉宽）。超短 XUV 脉冲（$\tau_X$ 接近单个光周期）时可能需保留三阶项。
+\end{approxbox}
+
+\begin{approxbox}
+\textbf{近似 A3 —— SFA（忽略基态消耗、激发态、库仑尾势修正）。} 式 (\ref{eq:sfa}) 忽略连续态-基态间的 Rabi 振荡、激发态通道和离子库仑势对渐近动量的修正。高次谐波平台的定量预测需要包含这些修正（Coulomb-corrected SFA / CVA），但 streaking 谱的主峰位置由经典运动学主导，对 SFA 的依赖较弱。
+\end{approxbox}
+
+\subsection{经典映射的参数}
+
+\begin{table}[h]
+\centering
+\caption{核函数参数的明确定义}
+\label{tab:kernel-params}
+\begin{tabular}{p{2.5cm}p{4cm}p{6cm}}
+\toprule
+\textbf{参数} & \textbf{定义} & \textbf{来源} \\
+\midrule
+$k_s(\alpha,\tau)$ & $k_0 - \boldsymbol{\kappa}(\tau)\!\cdot\!\boldsymbol{\alpha}$ & 由 $t_s\approx\tau$ 和矢势-动量关系导出，见 Eq (\ref{eq:classical-map}) \\
+$\boldsymbol{\kappa}(\tau)$ & $\kappa f(\tau)(\sin\omega\tau,\cos\omega\tau)^T$ & [TD] §6, Eq (11)-(12) \\
+$\kappa$ & $2\mathcal{E}_N/\omega$ & 电场-矢势转换，$\mathcal{E}_N = eE_N/2$ \\
+$k_0$ & $\sqrt{2(\Omega_{\text{XUV}}-I_p)}$ & 能量守恒，$\Omega_{\text{XUV}}$ 是 XUV 中心光子能量 \\
+$\sigma_k$ & $\sim |S''(t_s)|^{1/2} \sim 1/\tau_X$ & 鞍点展开的二阶项，量级等于 XUV 脉宽的傅里叶限制 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{经典映射关系的推导}
+
+XUV 脉宽极短（$\sim 200$ as），电离集中在 $t \approx \tau$。将此代入矢势：
+
+\begin{equation}\label{eq:classical-map}
+k_s(\alpha,\tau) = k_0 - A_\alpha(\tau)
+= k_0 - \underbrace{\frac{2\mathcal{E}_N}{\omega}\bigl(\alpha_x\sin\omega\tau + \alpha_y\cos\omega\tau\bigr)}_{\boldsymbol{\kappa}(\tau)\cdot\boldsymbol{\alpha}}
+\end{equation}
+
+\begin{approxbox}
+\textbf{近似 A4 —— 瞬时电离（$t_s \approx \tau$）。} 条件：$\tau_X \ll T_{\text{NIR}} = 2\pi/\omega$。对于 200 as XUV 脉冲和 800 nm NIR（$T\approx 2.7$ fs），$\tau_X/T \sim 0.07 \ll 1$，满足。
+\end{approxbox}
+
+\section{论证的第 3 层：正问题的紧凑形式}
+
+\subsection{定义有效核函数}
+
+将 Eq (\ref{eq:kernel-full}) 中的缓变因子合并为 $J(k,\tau|\alpha)$：
+
+\begin{equation}\label{eq:Jdef}
+J(k,\tau|\alpha) \equiv
+|d(k+A_\alpha(t_s))|^2\;
+|E_X^{\text{cl}}(t_s-\tau)|^2\;
+\frac{2\pi}{|S''(t_s)|}
+\end{equation}
+
+\begin{approxbox}
+\textbf{近似 A5 —— $J$ 是 $(k,\alpha)$ 的缓变函数。} 在典型参数下，偶极因子和 XUV 包络在对 $k_s(\alpha,\tau)$ 的积分范围内变化 $< 10\%$。若此近似在具体实验参数下不成立，可通过 Monte Carlo 校准或迭代修正来恢复 $J$ 的非平庸依赖性。
+\end{approxbox}
+
+在此近似下，正问题取紧凑形式：
+
+\begin{keybox}
+\[
+\boxed{
+P(k;\tau) = \iint d\alpha_R d\alpha_I\;
+Q(\alpha_R,\alpha_I)\;
+\frac{J(k,\tau)}{\sqrt{2\pi}\,\sigma_k}\,
+\exp\!\left[-\frac{\bigl(k - k_0 + \boldsymbol{\kappa}(\tau)\!\cdot\!\boldsymbol{\alpha}\bigr)^2}{2\sigma_k^2}\right]
+}
+\]
+\end{keybox}
+
+若 $J$ 可由独立测量或理论计算确定，作归一化：
+\begin{equation}
+\tilde{P}(k;\tau) \equiv \frac{P(k;\tau)}{J(k,\tau)} \approx
+\iint d^2\alpha\; Q(\boldsymbol{\alpha})\;
+\frac{1}{\sqrt{2\pi}\sigma_k}\,
+\exp\!\left[-\frac{(k - k_0 + \boldsymbol{\kappa}\!\cdot\!\boldsymbol{\alpha})^2}{2\sigma_k^2}\right]
+\end{equation}
+
+\subsection{数学归类}
+
+这是一个 \textbf{Gaussian 核的二维线性第一类积分方程}。核在动量空间中沿 $\boldsymbol{\kappa}(\tau)$ 方向作用——本质上是一个\textbf{模糊 Radon 变换}：先做 Radon 投影（沿 $\hat{\boldsymbol{\kappa}}$），再对投影做 $k$ 方向的 Gaussian 平滑。
+
+\section{论证的第 4 层：Fourier 域中的精确等价形式}
+
+\subsection{2D 傅里叶变换的定义}
+
+\begin{equation}
+\hat{Q}(\xi_R,\xi_I) \equiv \mathcal{F}_{2D}[Q](\boldsymbol{\xi})
+= \iint d\alpha_R d\alpha_I\;
+Q(\alpha_R,\alpha_I)\;
+e^{i(\xi_R\alpha_R + \xi_I\alpha_I)}
+= \iint d^2\alpha\; Q(\boldsymbol{\alpha})\; e^{i\boldsymbol{\xi}\cdot\boldsymbol{\alpha}}
+\end{equation}
+
+\subsection{对 $P$ 的 $k$ 方向一维傅里叶变换}
+
+固定 $\tau$，定义：
+\begin{equation}
+\tilde{P}(\omega_k,\tau) \equiv \int dk\; e^{-i\omega_k k}\; \tilde{P}(k,\tau)
+\end{equation}
+
+\subsection{代入积分方程，交换积分次序}
+
+将正问题的 $\tilde{P}$ 表达式代入，利用 $\tilde{P}$ 中 $\exp[-(k-k_0+\boldsymbol{\kappa}\!\cdot\!\boldsymbol{\alpha})^2/2\sigma_k^2]$ 的傅里叶变换 $\sqrt{2\pi}\sigma_k\,e^{-i\omega_k(k_0-\boldsymbol{\kappa}\!\cdot\!\boldsymbol{\alpha})}e^{-\omega_k^2\sigma_k^2/2}$：
+
+\begin{align}
+\tilde{P}(\omega_k,\tau) &= \int dk\,e^{-i\omega_k k}\,
+\iint d^2\alpha\; Q(\boldsymbol{\alpha})\,
+\frac{1}{\sqrt{2\pi}\sigma_k}
+e^{-(k-k_0+\boldsymbol{\kappa}\!\cdot\!\boldsymbol{\alpha})^2/2\sigma_k^2} \\
+&= \iint d^2\alpha\; Q(\boldsymbol{\alpha})\,
+\int dk\,e^{-i\omega_k k}\,
+\frac{1}{\sqrt{2\pi}\sigma_k}
+e^{-(k-k_0+\boldsymbol{\kappa}\!\cdot\!\boldsymbol{\alpha})^2/2\sigma_k^2} \\
+&= \iint d^2\alpha\; Q(\boldsymbol{\alpha})\;
+e^{-i\omega_k(k_0-\boldsymbol{\kappa}\!\cdot\!\boldsymbol{\alpha})}\;
+e^{-\omega_k^2\sigma_k^2/2} \\
+&= e^{-i\omega_k k_0}\,
+e^{-\omega_k^2\sigma_k^2/2}\,
+\iint d^2\alpha\; Q(\boldsymbol{\alpha})\; e^{i(\omega_k\boldsymbol{\kappa})\cdot\boldsymbol{\alpha}}
+\end{align}
+
+最后一步的积分正是 $\hat{Q}$ 在 $\boldsymbol{\xi} = \omega_k\boldsymbol{\kappa}(\tau)$ 处的取值：
+
+\begin{keybox}
+\[
+\boxed{\tilde{P}(\omega_k,\tau)
+= e^{-i\omega_k k_0}\;
+e^{-\omega_k^2\sigma_k^2/2}\;
+\hat{Q}\!\bigl(\omega_k\,\boldsymbol{\kappa}(\tau)\bigr)}
+\]
+\textbf{模糊 Radon 变换的 Fourier 切片定理。}
+\end{keybox}
+
+\textbf{推导不涉及任何近似。} 仅有积分次序的交换——在绝对可积性条件下严格合法（$Q$ 是 $L^1$ 可积的，Gaussian 核是 Schwartz 函数）。
+
+\subsection{物理解释}
+
+\begin{itemize}[nosep]
+  \item 固定 $\tau$，$\tilde{P}(\omega_k,\tau)$ 是 $Q$ 的 2D Fourier 变换在 $\boldsymbol{\xi} = \omega_k\boldsymbol{\kappa}(\tau)$ 处的值——即在 $\boldsymbol{\kappa}(\tau)$ 方向上、距原点 $\omega_k\kappa(\tau)$ 的点
+  \item 扫描 $\tau$ 和 $\omega_k$ → 在 2D Fourier 空间中获得一组沿径向分布的采样点
+  \item 衰减因子 $e^{-\omega_k^2\sigma_k^2/2}$ 给出 $\boldsymbol{\xi}$ 空间中的\textbf{有效半径}：$\omega_k^{\text{eff}} \lesssim 1/\sigma_k$
+  \item \textbf{空间分辨率：} $\Delta\alpha_{\min} \sim 2\pi/\xi_{\max} \sim 2\pi\sigma_k/\kappa$
+\end{itemize}
+
+\section{论证的第 5 层：反演——从 $\tilde{P}$ 到 $\hat{Q}$ 到 $Q$}
+
+\subsection{去模糊}
+
+对每个 $(\omega_k,\tau)$，除以衰减因子：
+
+\begin{equation}\label{eq:deblur}
+\hat{Q}_{\text{meas}}\bigl(\omega_k\boldsymbol{\kappa}(\tau)\bigr)
+= e^{+i\omega_k k_0}\;
+e^{+\omega_k^2\sigma_k^2/2}\;
+\tilde{P}(\omega_k,\tau)
+\end{equation}
+
+\subsection{截断}
+
+$e^{+\omega_k^2\sigma_k^2/2}$ 在 $|\omega_k|$ 大时指数放大噪声。在截断频率 $\omega_k^{\max}$ 处停止去模糊：
+
+\begin{equation}
+\omega_k^{\max} \sim \frac{1}{\sigma_k}\;\sqrt{\ln\!\left(\frac{\text{SNR}_P}{\text{SNR}_Q^{\text{target}}}\right)}
+\end{equation}
+
+超出此频率，数据中的噪声超过信号，将 $\hat{Q}$ 设为零或过渡到 Tikhonov 阻尼。
+
+\subsection{网格化与逆变换}
+
+收集各 $(\omega_k,\tau)$ 处的 $\hat{Q}$ 采样值，在 2D 笛卡尔 $(\xi_R,\xi_I)$ 网格上插值（径向基函数或最近邻+平滑），做 2D 逆傅里叶变换：
+
+\begin{equation}
+Q(\boldsymbol{\alpha}) = \frac{1}{(2\pi)^2}\iint d^2\xi\;
+\hat{Q}(\boldsymbol{\xi})\; e^{-i\boldsymbol{\xi}\cdot\boldsymbol{\alpha}}
+\end{equation}
+
+\subsection{通用方案——算法模板}
+
+\begin{enumerate}[nosep]
+  \item \textbf{输入：} $P(k,\tau)$ [$N_k\!\times\!N_\tau$ 矩阵]，参数 $\{\kappa,\sigma_k,k_0,\omega,f(\tau)\}$
+  \item \textbf{校准（可选）：} 用已知参考信号或独立测量确定 $J(k,\tau)$，生成 $\tilde{P} = P/J$
+  \item \textbf{1D FT：} 对每个 $\tau$，沿 $k$ 方向做 FFT，得到 $\tilde{P}(\omega_k,\tau)$
+  \item \textbf{去模糊+截断：} 应用式 (\ref{eq:deblur})，在 $\omega_k^{\max}$ 截断
+  \item \textbf{2D 网格化：} 将每个 $\omega_k,\tau$ 映射到 $(\xi_R,\xi_I) = \omega_k\boldsymbol{\kappa}(\tau)$，插值到笛卡尔格点
+  \item \textbf{2D IFFT：} 逆变换得到 $Q(\boldsymbol{\alpha})$
+  \item \textbf{正则化（按需）：} 如在截断之外仍需额外稳定性，对 $\hat{Q}$ 应用 Tikhonov/TV/MaxEnt 滤波器
+\end{enumerate}
+
+\section{论证总结：完整的推导链}
+
+\[
+\begin{array}{c}
+\text{[TD] Eq (27)}\;P=\iint P_N A_\alpha A_\beta^* \\
+\downarrow\;\text{对角分离\;(精确)} \\
+P_{\text{diag}} = \int Q(\alpha)\,|A_\alpha|^2 \quad+\quad P_{\text{off}}\;\text{(A1:忽略)} \\
+\downarrow\;\text{SFA + 鞍点二阶展开\;(A2,A3,A4)} \\
+|A_\alpha|^2 \approx \frac{J}{\sqrt{2\pi}\sigma_k}\,
+\exp\!\left[-\frac{(k-k_0+\boldsymbol{\kappa}\!\cdot\!\boldsymbol{\alpha})^2}{2\sigma_k^2}\right] \\
+\downarrow\;J\;\text{缓变\;(A5)},\;\tilde{P}=P/J \\
+\tilde{P}(k,\tau) = \iint Q(\boldsymbol{\alpha})\,
+\frac{1}{\sqrt{2\pi}\sigma_k}
+e^{-(k-k_0+\boldsymbol{\kappa}\!\cdot\!\boldsymbol{\alpha})^2/2\sigma_k^2}\,d^2\alpha \\
+\downarrow\;\text{1D FT w.r.t.}\;k\;\text{(精确)} \\
+\tilde{P}(\omega_k,\tau) = e^{-i\omega_k k_0}\;e^{-\omega_k^2\sigma_k^2/2}\;
+\hat{Q}(\omega_k\boldsymbol{\kappa}(\tau)) \\
+\downarrow\;\text{去模糊+截断+2D IFFT} \\
+\boxed{Q(\boldsymbol{\alpha})}
+\end{array}
+\]
+
+\section{近似汇总}
+
+\begin{longtable}{p{1cm}p{3cm}p{2.5cm}p{2.5cm}p{3.5cm}}
+\toprule
+\textbf{编号} & \textbf{名称} & \textbf{后果} & \textbf{适用条件} & \textbf{位置} \\
+\midrule
+A1 & 对角近似 & 忽略 $P_{\text{off}}$ → 系统偏差 $\epsilon_{\text{off}}$ & $r$ 不太大（BSV 中 $P_{\text{off}}\sim O(e^{-r})$）；后续验证量化 & §3.3 \\
+\midrule
+A2 & 鞍点二阶截断 & 丢失 $S'''$ 以上贡献 → $\sigma_k$ 误差 & $|S'''/S''^2|\ll 1$；$\tau_X\gg 1/\omega_X$ & §4.2 \\
+\midrule
+A3 & SFA & 忽略基态消耗/激发态/库仑修正 & 电离概率 $\ll 1$；streaking 主峰由运动学主导 & §4.1 \\
+\midrule
+A4 & 瞬时电离 $t_s\approx\tau$ & $k_s$ 的 $\tau$ 依赖线性化 & $\tau_X\ll T_{\text{NIR}}$（200 as vs 2.7 fs → 满足） & §4.5 \\
+\midrule
+A5 & $J$ 缓变 & $J$ 移出积分号 & 偶极和包络在积分域内变化 $<10\%$；不满足时迭代修正 & §5.1 \\
+\bottomrule
+\caption{所有近似的汇总}
+\label{tab:approx-summary}
+\end{longtable}
+
+\section{参考文献对应关系}
+
+\begin{center}
+\begin{tabular}{p{4cm}p{4cm}p{6cm}}
+\toprule
+\textbf{本推导引用的结论} & \textbf{参考文献} & \textbf{对应公式} \\
+\midrule
+广义 P 表示 & Glauber, PRB 131, 2766 (1963) & Eq (4.12) \\
+SFA 振幅 & Lewenstein et al., PRA 49, 2117 (1994) & Eq (8) \\
+鞍点展开 & Bleistein \& Handelsman (1986) & §7.1--§7.3 \\
+Radon 变换 \& 切片定理 & Natterer, \textit{Computerized Tomography} (2001) & Theorem II.1.1 \\
+Fourier 去模糊 & 本节直接推导 & Eq (\ref{eq:deblur}) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}

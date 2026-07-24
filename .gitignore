@@ -1,0 +1,19 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Runtime output (keep docs/ PDFs)
+output/
+*.png
+
+# IDE
+.vscode/
+.idea/
