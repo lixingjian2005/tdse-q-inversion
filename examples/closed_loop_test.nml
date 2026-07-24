@@ -10,7 +10,7 @@
 
 &numerics
   n_k = 256
-  n_tau = 128
+  n_tau = 256
   n_tau_cycles = 1
   n_xi = 128
   n_alpha = 128

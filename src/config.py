@@ -65,7 +65,7 @@ class NumericsParams:
     n_k: int = 256
     """Number of k points in P(k,τ) data (also 1D FFT size)"""
 
-    n_tau: int = 64
+    n_tau: int = 256
     """Number of τ (delay) samples per NIR cycle"""
 
     n_tau_cycles: int = 1

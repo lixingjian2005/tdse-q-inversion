@@ -126,11 +126,14 @@ def _grid_binning(
         ir = int(np.round((xi_R_samples[k] + xi_max) / (2.0 * xi_max) * (n_xi - 1)))
         ii = int(np.round((xi_I_samples[k] + xi_max) / (2.0 * xi_max) * (n_xi - 1)))
         if 0 <= ir < n_xi and 0 <= ii < n_xi:
-            q_hat_grid[ir, ii] += q_hat_samples[k]
-            weight_grid[ir, ii] += 1.0
+            # Density compensation: weight ∝ r (compensates for higher
+            # sampling density near origin in radial spoke pattern)
+            r = np.sqrt(xi_R_samples[k]**2 + xi_I_samples[k]**2) + 0.1 * dxi
+            w = r / dxi
+            q_hat_grid[ir, ii] += q_hat_samples[k] * w
+            weight_grid[ir, ii] += w
 
-    # Normalize by bin count to avoid density bias
-    # (compensates for varying sampling density)
+    # Normalize by accumulated weight
     mask = weight_grid > 0
     q_hat_grid[mask] /= weight_grid[mask]
 
