@@ -58,6 +58,7 @@ def transform_single_tau(
     dk: float,
     sigma_k: float,
     omega_k_max: float,
+    deblur: bool = True,
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """Perform 1D FFT + deblur for one τ value.
 
@@ -94,21 +95,23 @@ def transform_single_tau(
     omega_valid = omega_k[valid_idx]
     p_fft_valid = p_fft[valid_idx]
 
-    # Deblur:
-    #   Q̂ = dk · exp(+i ω(k0−kmin)) · exp(+ω²σ²/2) · FFT[P̃]
-    # Phase from k-grid offset: need exp(-i ω·k_min) from the FFT
-    # and exp(+i ω·k0) from the deblur → combined exp(+i ω(k0−kmin))
-    phase_fft = np.exp(-1j * omega_valid * k_min)  # FFT: P̃ = dk·FFT·exp(-iω kmin)
-    phase_deblur = np.exp(+1j * omega_valid * k0)    # deblur: exp(+i ω k0)
-    deblur = np.exp(0.5 * (omega_valid * sigma_k) ** 2)
+    # Phase corrections:
+    #   P̃ = dk · exp(-iω k_min) · FFT[P]
+    #   Q̂ = exp(+iω k0) · exp(+ω²σ²/2) · P̃   (deblur)
+    # Combined: Q̂ = dk · exp(+iω(k0−kmin)) · exp(+ω²σ²/2) · FFT[P]
+    phase_fft = np.exp(-1j * omega_valid * k_min)
+    phase_shift = np.exp(+1j * omega_valid * k0)
 
-    q_hat_valid = dk * phase_fft * phase_deblur * deblur * p_fft_valid
+    # Deblur factor: needed for inverse (reconstruction), harmful for adjoint
+    if deblur:
+        deblur_factor = np.exp(0.5 * (omega_valid * sigma_k) ** 2)
+        q_hat_valid = dk * phase_fft * phase_shift * deblur_factor * p_fft_valid
+    else:
+        q_hat_valid = dk * phase_fft * phase_shift * p_fft_valid
 
     # Map to 2D Fourier coordinates: ξ = ω_k · κ(τ)
     xi_R = omega_valid * kv_tau[0]
     xi_I = omega_valid * kv_tau[1]
-
-    return xi_R, xi_I, q_hat_valid
 
     return xi_R, xi_I, q_hat_valid
 
@@ -122,6 +125,7 @@ def transform_all_tau(
     dk: float,
     sigma_k: float,
     omega_k_max: float,
+    deblur: bool = True,
 ) -> FourierSamples:
     """Full 1D FFT + deblur for all τ values.
 
@@ -144,6 +148,7 @@ def transform_all_tau(
         xi_r, xi_i, qh = transform_single_tau(
             p_tilde[j], tau_array[j], kappa_vec[j],
             omega_k, k0, k_min, dk, sigma_k, omega_k_max,
+            deblur=deblur,
         )
         xi_R_list.append(xi_r)
         xi_I_list.append(xi_i)

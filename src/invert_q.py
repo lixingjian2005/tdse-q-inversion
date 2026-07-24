@@ -49,6 +49,8 @@ def run_pipeline(
     config: QInvConfig,
     p_input: np.ndarray = None,
     q_ref: np.ndarray = None,
+    iterative: bool = False,
+    n_iter: int = 20,
 ) -> dict:
     """Execute the full inversion pipeline.
 
@@ -56,6 +58,8 @@ def run_pipeline(
         config: QInvConfig with all parameters
         p_input: P(k,τ) data [N_τ, N_k], or None for synthetic
         q_ref: Reference Q [N_α, N_α] for validation, or None
+        iterative: enable iterative Gerchberg-Saxton refinement
+        n_iter: max iterations for refinement
 
     Returns:
         dict with all results (q_recon, p_recon, diagnostics, etc.)
@@ -155,6 +159,46 @@ def run_pipeline(
         p.k0, p.sigma_k,
     )
 
+    # ── 6. Iterative refinement (v2.0) ───────────────────────────────
+
+    q_v10 = q_recon.copy()  # preserve v1.0 result
+    iterative_history = None
+
+    if iterative:
+        from src.iterative import iterative_refine, make_forward_projector
+
+        print(f"\n  Gradient descent refinement: max {n_iter} iterations...")
+
+        forward_project = make_forward_projector(
+            tau, k, config.kappa, p.nir_omega, p.nir_cycles,
+            p.k0, p.sigma_k, alpha_min, alpha_max,
+        )
+
+        alpha_1d = np.linspace(alpha_min, alpha_max, n_alpha)
+
+        adjoint_kwargs = dict(
+            n_xi=n.n_xi, xi_max=xi_max,
+            n_alpha=n_alpha, alpha_min=alpha_min, alpha_max=alpha_max,
+            d_alpha=config.d_alpha, interp_method=n.interp_method,
+        )
+        iter_result = iterative_refine(
+            q_recon, p_input, forward_project,
+            tau, k, alpha_1d, kv, p.k0, p.sigma_k,
+            n_iter=n_iter,
+            step_size=0.01, step_decay=0.98,
+            positivity=True, verbose=True,
+            adjoint_kwargs=adjoint_kwargs,
+        )
+        q_recon = iter_result['q_final']
+        iterative_history = iter_result['history']
+
+        # Recompute forward prediction
+        p_recon = forward_pass(
+            q_recon, alpha_min, alpha_max, tau, k,
+            config.kappa, p.nir_omega, p.nir_cycles,
+            p.k0, p.sigma_k,
+        )
+
     t_elapsed = time.perf_counter() - t_start
     print(f"  Pipeline complete: {t_elapsed:.2f}s")
 
@@ -172,10 +216,68 @@ def run_pipeline(
         "coverage": coverage,
         "sigma_k": p.sigma_k,
         "timing": t_elapsed,
+        "q_v10": q_v10,
+        "iterative_history": iterative_history,
     }
 
 
-def run_closed_loop(config: QInvConfig, qtype: str = "coherent") -> dict:
+def run_from_file(config: QInvConfig) -> dict:
+    """Run inversion on v5.1 (or other external) P(k,tau) data.
+
+    Reads P(k,tau) from the input file specified in config,
+    runs the v1.0 pipeline, and saves results.
+    """
+    print(f"\n{'='*60}")
+    print(f"  FILE-BASED INVERSION")
+    print(f"  Input: {config.io.input_file}")
+    print(f"  {config.summary()}")
+    print(f"{'='*60}\n")
+
+    # Read data
+    from src.io_data import read_v51_probability
+
+    tau, k, p_input = read_v51_probability(config.io.input_file)
+    print(f"  Loaded P(k,tau): {len(tau)} tau × {len(k)} k")
+
+    # Override config with actual grid dimensions
+    config.numerics.n_tau = len(tau)
+    config.numerics.n_k = len(k)
+    config.physics.tau_min = tau[0]
+    config.physics.tau_max = tau[-1]
+    config.derive()
+
+    print(f"  Adjusted config: {config.summary()}")
+
+    if len(tau) < 32:
+        print(f"\n  WARNING: Only {len(tau)} tau values. "
+              f"Fourier inversion requires >= 32 (preferably >= 128).")
+        print(f"  Reconstruction quality will be severely degraded.")
+        print(f"  Consider re-running v5.1 with denser tau sampling.\n")
+
+    results = run_pipeline(config, p_input=p_input)
+
+    # Diagnostics (no reference Q available for file-based inversion)
+    print(f"\n  Reconstruction complete.")
+    print(f"  Q max: {results['q_recon'].max():.6e}")
+    print(f"  Q sum: {results['q_recon'].sum():.6e}")
+    print(f"  Forward residual: {forward_residual(results['p_input'], results['p_recon']):.6e}")
+
+    # Output
+    io = config.io
+    os.makedirs(io.output_dir, exist_ok=True)
+    q_path = os.path.join(io.output_dir, f"{io.output_prefix}_qfunc.dat")
+    write_q_function(q_path, results['q_recon'],
+                     results['alpha_min'], results['alpha_max'],
+                     "Reconstructed Q from v5.1 data")
+
+    if io.plot:
+        plot_results(results, io.output_dir, io.output_prefix, "v5.1")
+
+    return results
+
+
+def run_closed_loop(config: QInvConfig, qtype: str = "coherent",
+                    iterative: bool = False, n_iter: int = 20) -> dict:
     """Run closed-loop validation: known Q → synthetic P → invert → compare.
 
     Args:
@@ -193,11 +295,18 @@ def run_closed_loop(config: QInvConfig, qtype: str = "coherent") -> dict:
     # Store qtype for pipeline
     config._qtype = qtype
 
-    results = run_pipeline(config)
+    results = run_pipeline(config, iterative=iterative, n_iter=n_iter)
 
     # ── Diagnostics ─────────────────────────────────────────────────
 
     if results["q_ref"] is not None:
+        # Show v1.0 vs v2.0 comparison
+        if results.get("q_v10") is not None:
+            l2_v10 = l2_error(results["q_v10"], results["q_ref"])
+            l2_v20 = l2_error(results["q_recon"], results["q_ref"])
+            print(f"\n  v1.0 L2: {l2_v10:.4f}  ->  v2.0 L2: {l2_v20:.4f}"
+                  f"  (delta = {l2_v10 - l2_v20:+.4f})")
+
         diag_header = print_report(
             results["q_recon"], results["q_ref"],
             results["p_input"], results["p_recon"],
@@ -341,6 +450,14 @@ def main():
         help="Test Q distribution: coherent, bsv, thermal, gaussian_mixture",
     )
     parser.add_argument(
+        "--iterative", action="store_true",
+        help="Enable iterative Gerchberg-Saxton refinement (v2.0)",
+    )
+    parser.add_argument(
+        "--n-iter", type=int, default=20,
+        help="Max iterations for refinement (default: 20)",
+    )
+    parser.add_argument(
         "--output-dir", "-o",
         default="./output",
         help="Output directory",
@@ -360,10 +477,13 @@ def main():
     config.io.output_dir = args.output_dir
 
     if args.mode == "closed-loop":
-        run_closed_loop(config, args.qtype)
+        run_closed_loop(config, args.qtype, iterative=args.iterative,
+                        n_iter=args.n_iter)
     elif args.mode == "file":
-        print("File mode not yet implemented. Use --mode closed-loop for testing.")
-        sys.exit(1)
+        if not config.io.input_file:
+            print("Error: --mode file requires input_file in config")
+            sys.exit(1)
+        run_from_file(config)
 
     return 0
 

@@ -1,0 +1,32 @@
+&physics
+  ! 1600nm NIR parameters matching v5.1 coherent reference run
+  nir_omega = 0.02848     ! 1600 nm
+  nir_e0 = 0.014           ! streaking E0, gives kappa ~ 2*0.014/0.02848 = 0.983
+  k0 = 0.968               ! sqrt(2*(0.968 - 0.5)) ~ 0.968 (H17 XUV, ~26 eV)
+  sigma_k = 0.15            ! broader for 1600nm (longer period, more streaking)
+  ip = 0.5
+  use_diagonal = .true.
+  nir_cycles = 4.0
+/
+
+&numerics
+  n_k = 256
+  n_tau = 128              ! need denser tau than v5.1's 12
+  n_tau_cycles = 1
+  n_xi = 128
+  n_alpha = 128
+  snr_p = 100.0
+  snr_q_target = 10.0
+  interp_method = 'bin'
+  regularize = 'cutoff'
+  omega_k_max = 8.0         ! smaller kappa → smaller xi_max
+  alpha_max = 3.0           ! smaller kappa → alpha also smaller
+/
+
+&io
+  input_file = ''
+  input_format = 'synthetic'
+  output_dir = './output'
+  output_prefix = 'v51_coherent'
+  plot = .true.
+/
