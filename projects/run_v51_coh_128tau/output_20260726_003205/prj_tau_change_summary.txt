@@ -1,0 +1,7 @@
+n_tau=128
+tau_min=  0.0000000000000000E+00
+tau_max=  1.1026400000000000E+02
+max_probability_tau_abs_delta=  1.6554364657917535E+00
+max_branch_phase_tau_abs_delta=  7.2497090283496490E-04
+max_field_total_tau_abs_delta=  1.1004819730471294E-03
+max_vector_potential_tau_abs_delta=  2.2490002869958725E-03

@@ -1,0 +1,117 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper,margin=0.9in]{geometry}
+\usepackage{graphicx}
+\usepackage[labelfont=bf,labelformat=parens,font=small]{subcaption}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{mathptmx}  % Times
+\usepackage[colorlinks,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
+\usepackage{xcolor}
+
+\begin{document}
+
+% ====== Page 1: parameter table ======
+
+\begin{center}
+  \Large\textbf{TDSE Simulation Parameters}
+\end{center}
+\vspace{4pt}
+
+\begin{tabular}{@{}ll@{}}
+  \toprule
+  \multicolumn{2}{l}{\small\textit{\textcolor{gray}{Laser}}} \\
+  \hline
+  $\lambda_{\rm NIR}$ & 799~nm \\
+  $\lambda_{\rm XUV}$ & 46~nm \\
+  $E_{\rm XUV}$ & 27.2~eV (H18) \\
+  $I_{\rm NIR}$ & $5.61e+13$~W/cm$^2$ \\
+  $I_{\rm XUV}$ & $3.16e+13$~W/cm$^2$ \\
+  $U_p$ & $0.1231$~a.u. = $3.35$~eV \\
+  $\Delta k$ & $0.702$~a.u. \\
+  $T_{\rm prop}$ & $125$~a.u. = $3.0$~fs \\
+  \multicolumn{2}{l}{\small\textit{\textcolor{gray}{Coherent-State Sampling}}} \\
+  \hline
+  Mode & Husimi-Q (diagonal) \\
+  $N_{\alpha}$ & 1 \\
+  \multicolumn{2}{l}{\small\textit{\textcolor{gray}{Scan}}} \\
+  \hline
+  $N_{\tau}$ & 8 \\
+  $\tau_{\rm min}$ & $0.0000e+00$~a.u. \\
+  $\tau_{\rm max}$ & 110.2640~a.u. \\
+  $k_{\rm min}$ & 0.0050~a.u. \\
+  $k_{\rm max}$ & 2.4376~a.u. \\
+  $N_k$ & 40 \\
+  $N_{\theta}$ & 21 \\
+  \multicolumn{2}{l}{\small\textit{\textcolor{gray}{Numerical Grid}}} \\
+  \hline
+  $r_{\rm max}$ & 60~a.u. \\
+  $\Delta t$ & 0.0500~a.u. \\
+  $N_{\rm steps}$ & 2500 \\
+  $N_{\rm elem}$ & 15 \\
+  $N_{\rm Lobatto}$ & 5 \\
+  $\ell_{\rm max}$ & 6 \\
+  $Z_{\rm eff}$ & 1 \\
+  Projection & Coulomb \\
+  \bottomrule
+\end{tabular}
+
+\vfill
+\begin{flushright}
+  \footnotesize\color{gray}
+  prefix: prj \quad
+  $N_\tau = 8$ \quad
+  $N_\alpha = 1$
+\end{flushright}
+
+% ====== Page 2: momentum panels ======
+
+\clearpage
+
+\begin{figure}[p]
+  \centering
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau001.png}
+    \caption{$\tau = 0$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau002.png}
+    \caption{$\tau = 16$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau003.png}
+    \caption{$\tau = 32$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau004.png}
+    \caption{$\tau = 47$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau005.png}
+    \caption{$\tau = 63$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau006.png}
+    \caption{$\tau = 79$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau007.png}
+    \caption{$\tau = 95$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau008.png}
+    \caption{$\tau = 110$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \caption{Photoelectron momentum distributions at each time delay.
+           $N_\alpha = 1$, Husimi-Q (diagonal).}
+  \label{fig:momentum}
+\end{figure}
+
+\end{document}

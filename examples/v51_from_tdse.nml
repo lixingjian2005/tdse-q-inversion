@@ -1,0 +1,32 @@
+&physics
+  ! 800nm NIR — matching v5.1 run physics
+  nir_omega = 0.057
+  nir_e0 = 0.04
+  k0 = 1.0                  ! sqrt(2*(xuv_omega - Ip)) = sqrt(2*(1.0 - 0.5)) = 1.0
+  sigma_k = 0.08            ! ~1/tau_XUV, XUV 2-cycle at omega=1.0
+  ip = 0.5
+  use_diagonal = .true.
+  nir_cycles = 4.0
+/
+
+&numerics
+  n_k = 50
+  n_tau = 128
+  n_tau_cycles = 1
+  n_xi = 128
+  n_alpha = 128
+  snr_p = 100.0
+  snr_q_target = 10.0
+  interp_method = 'bin'
+  regularize = 'cutoff'
+  omega_k_max = 10.0
+  alpha_max = 4.0
+/
+
+&io
+  input_file = 'projects/run_v51_coh_128tau/output_20260725_032313/prj_tau_k_summary.dat'
+  input_format = 'v5.1'
+  output_dir = './output'
+  output_prefix = 'v51_from_tdse'
+  plot = .true.
+/

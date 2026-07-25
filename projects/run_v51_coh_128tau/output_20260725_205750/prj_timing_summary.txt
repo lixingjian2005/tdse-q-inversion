@@ -1,0 +1,16 @@
+n_alpha=1
+n_tau=128
+timer_resolution_seconds=  9.9999999999999995E-07
+initialize_seconds_total=  9.9979999999999965E-03
+propagate_seconds_total=  2.3255424419999999E+03
+mask_seconds_total=  1.0743999999999997E-02
+project_seconds_total=  1.3299170000000002E+00
+alpha_tau_seconds_total=  2.3269029309999996E+03
+synthesis_seconds_total=  1.6969999999999997E-03
+measured_seconds_total=  2.3269046279999998E+03
+propagate_fraction_of_measured=  9.9941459311068948E-01
+project_fraction_of_measured=  5.7153910993897441E-04
+synthesis_fraction_of_measured=  7.2929503838693635E-07
+max_alpha_tau_seconds=  2.2330079000000001E+01
+max_propagate_seconds=  2.2323666999999997E+01
+max_project_seconds=  3.2215599999999994E-01

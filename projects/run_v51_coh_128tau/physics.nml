@@ -1,0 +1,30 @@
+! ============================================================================
+! v5.2: 128-tau, medium field — avoids Krylov wall, visible streaking
+! ============================================================================
+&scan
+  nir_e0 = 0.02               ! half of original, kappa=0.70, shift~1.4 a.u.
+  nir_omega = 0.057
+  nir_cycles = 4.0
+  nir_cep = 0.0
+
+  xuv_e0 = 0.03               ! moderate ionization
+  xuv_omega = 1.0
+  xuv_cycles = 2.0
+  xuv_cep = 0.0
+
+  n_tau = 128
+  tau_min = 0.0
+  tau_max = 110.264
+
+  k_min = 0.005
+  k_max = 2.50
+  n_k = 40
+  n_theta = 21
+  n_phi = 1
+  momentum_grid_mode = "mature_left"
+
+  use_plane_wave_projection = .false.
+  use_coulomb_projection = .true.
+  coulomb_zeff = 1.0
+  projection_interval_steps = 250
+/

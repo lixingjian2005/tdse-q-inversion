@@ -1,0 +1,717 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper,margin=0.9in]{geometry}
+\usepackage{graphicx}
+\usepackage[labelfont=bf,labelformat=parens,font=small]{subcaption}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{mathptmx}  % Times
+\usepackage[colorlinks,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
+\usepackage{xcolor}
+
+\begin{document}
+
+% ====== Page 1: parameter table ======
+
+\begin{center}
+  \Large\textbf{TDSE Simulation Parameters}
+\end{center}
+\vspace{4pt}
+
+\begin{tabular}{@{}ll@{}}
+  \toprule
+  \multicolumn{2}{l}{\small\textit{\textcolor{gray}{Laser}}} \\
+  \hline
+  $\lambda_{\rm NIR}$ & 799~nm \\
+  $\lambda_{\rm XUV}$ & 46~nm \\
+  $E_{\rm XUV}$ & 27.2~eV (H18) \\
+  $I_{\rm NIR}$ & $2.25e+14$~W/cm$^2$ \\
+  $I_{\rm XUV}$ & $8.77e+13$~W/cm$^2$ \\
+  $U_p$ & $0.4925$~a.u. = $13.40$~eV \\
+  $\Delta k$ & $1.404$~a.u. \\
+  $T_{\rm prop}$ & $125$~a.u. = $3.0$~fs \\
+  \multicolumn{2}{l}{\small\textit{\textcolor{gray}{Coherent-State Sampling}}} \\
+  \hline
+  Mode & Husimi-Q (diagonal) \\
+  $N_{\alpha}$ & 1 \\
+  \multicolumn{2}{l}{\small\textit{\textcolor{gray}{Scan}}} \\
+  \hline
+  $N_{\tau}$ & 128 \\
+  $\tau_{\rm min}$ & $0.0000e+00$~a.u. \\
+  $\tau_{\rm max}$ & 110.2640~a.u. \\
+  $k_{\rm min}$ & 0.0050~a.u. \\
+  $k_{\rm max}$ & 2.4610~a.u. \\
+  $N_k$ & 64 \\
+  $N_{\theta}$ & 31 \\
+  \multicolumn{2}{l}{\small\textit{\textcolor{gray}{Numerical Grid}}} \\
+  \hline
+  $r_{\rm max}$ & 60~a.u. \\
+  $\Delta t$ & 0.0500~a.u. \\
+  $N_{\rm steps}$ & 2500 \\
+  $N_{\rm elem}$ & 15 \\
+  $N_{\rm Lobatto}$ & 5 \\
+  $\ell_{\rm max}$ & 6 \\
+  $Z_{\rm eff}$ & 1 \\
+  Projection & Coulomb \\
+  \bottomrule
+\end{tabular}
+
+\vfill
+\begin{flushright}
+  \footnotesize\color{gray}
+  prefix: prj \quad
+  $N_\tau = 128$ \quad
+  $N_\alpha = 1$
+\end{flushright}
+
+% ====== Page 2: momentum panels ======
+
+\clearpage
+
+\begin{figure}[p]
+  \centering
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau001.png}
+    \caption{$\tau = 0$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau002.png}
+    \caption{$\tau = 1$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau003.png}
+    \caption{$\tau = 2$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau004.png}
+    \caption{$\tau = 3$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau005.png}
+    \caption{$\tau = 3$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau006.png}
+    \caption{$\tau = 4$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau007.png}
+    \caption{$\tau = 5$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau008.png}
+    \caption{$\tau = 6$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau009.png}
+    \caption{$\tau = 7$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau010.png}
+    \caption{$\tau = 8$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau011.png}
+    \caption{$\tau = 9$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau012.png}
+    \caption{$\tau = 10$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau013.png}
+    \caption{$\tau = 10$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau014.png}
+    \caption{$\tau = 11$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau015.png}
+    \caption{$\tau = 12$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau016.png}
+    \caption{$\tau = 13$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau017.png}
+    \caption{$\tau = 14$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau018.png}
+    \caption{$\tau = 15$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau019.png}
+    \caption{$\tau = 16$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau020.png}
+    \caption{$\tau = 16$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau021.png}
+    \caption{$\tau = 17$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau022.png}
+    \caption{$\tau = 18$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau023.png}
+    \caption{$\tau = 19$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau024.png}
+    \caption{$\tau = 20$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau025.png}
+    \caption{$\tau = 21$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau026.png}
+    \caption{$\tau = 22$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau027.png}
+    \caption{$\tau = 23$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau028.png}
+    \caption{$\tau = 23$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau029.png}
+    \caption{$\tau = 24$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau030.png}
+    \caption{$\tau = 25$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau031.png}
+    \caption{$\tau = 26$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau032.png}
+    \caption{$\tau = 27$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau033.png}
+    \caption{$\tau = 28$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau034.png}
+    \caption{$\tau = 29$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau035.png}
+    \caption{$\tau = 30$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau036.png}
+    \caption{$\tau = 30$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau037.png}
+    \caption{$\tau = 31$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau038.png}
+    \caption{$\tau = 32$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau039.png}
+    \caption{$\tau = 33$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau040.png}
+    \caption{$\tau = 34$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau041.png}
+    \caption{$\tau = 35$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau042.png}
+    \caption{$\tau = 36$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau043.png}
+    \caption{$\tau = 36$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau044.png}
+    \caption{$\tau = 37$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau045.png}
+    \caption{$\tau = 38$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau046.png}
+    \caption{$\tau = 39$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau047.png}
+    \caption{$\tau = 40$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau048.png}
+    \caption{$\tau = 41$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau049.png}
+    \caption{$\tau = 42$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau050.png}
+    \caption{$\tau = 43$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau051.png}
+    \caption{$\tau = 43$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau052.png}
+    \caption{$\tau = 44$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau053.png}
+    \caption{$\tau = 45$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau054.png}
+    \caption{$\tau = 46$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau055.png}
+    \caption{$\tau = 47$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau056.png}
+    \caption{$\tau = 48$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau057.png}
+    \caption{$\tau = 49$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau058.png}
+    \caption{$\tau = 49$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau059.png}
+    \caption{$\tau = 50$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau060.png}
+    \caption{$\tau = 51$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau061.png}
+    \caption{$\tau = 52$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau062.png}
+    \caption{$\tau = 53$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau063.png}
+    \caption{$\tau = 54$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau064.png}
+    \caption{$\tau = 55$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau065.png}
+    \caption{$\tau = 56$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau066.png}
+    \caption{$\tau = 56$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau067.png}
+    \caption{$\tau = 57$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau068.png}
+    \caption{$\tau = 58$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau069.png}
+    \caption{$\tau = 59$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau070.png}
+    \caption{$\tau = 60$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau071.png}
+    \caption{$\tau = 61$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau072.png}
+    \caption{$\tau = 62$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau073.png}
+    \caption{$\tau = 63$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau074.png}
+    \caption{$\tau = 63$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau075.png}
+    \caption{$\tau = 64$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau076.png}
+    \caption{$\tau = 65$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau077.png}
+    \caption{$\tau = 66$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau078.png}
+    \caption{$\tau = 67$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau079.png}
+    \caption{$\tau = 68$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau080.png}
+    \caption{$\tau = 69$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau081.png}
+    \caption{$\tau = 69$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau082.png}
+    \caption{$\tau = 70$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau083.png}
+    \caption{$\tau = 71$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau084.png}
+    \caption{$\tau = 72$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau085.png}
+    \caption{$\tau = 73$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau086.png}
+    \caption{$\tau = 74$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau087.png}
+    \caption{$\tau = 75$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau088.png}
+    \caption{$\tau = 76$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau089.png}
+    \caption{$\tau = 76$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau090.png}
+    \caption{$\tau = 77$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau091.png}
+    \caption{$\tau = 78$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau092.png}
+    \caption{$\tau = 79$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau093.png}
+    \caption{$\tau = 80$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau094.png}
+    \caption{$\tau = 81$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau095.png}
+    \caption{$\tau = 82$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau096.png}
+    \caption{$\tau = 82$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau097.png}
+    \caption{$\tau = 83$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau098.png}
+    \caption{$\tau = 84$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau099.png}
+    \caption{$\tau = 85$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau100.png}
+    \caption{$\tau = 86$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau101.png}
+    \caption{$\tau = 87$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau102.png}
+    \caption{$\tau = 88$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau103.png}
+    \caption{$\tau = 89$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau104.png}
+    \caption{$\tau = 89$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau105.png}
+    \caption{$\tau = 90$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau106.png}
+    \caption{$\tau = 91$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau107.png}
+    \caption{$\tau = 92$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau108.png}
+    \caption{$\tau = 93$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau109.png}
+    \caption{$\tau = 94$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau110.png}
+    \caption{$\tau = 95$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau111.png}
+    \caption{$\tau = 96$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau112.png}
+    \caption{$\tau = 96$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau113.png}
+    \caption{$\tau = 97$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau114.png}
+    \caption{$\tau = 98$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau115.png}
+    \caption{$\tau = 99$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau116.png}
+    \caption{$\tau = 100$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau117.png}
+    \caption{$\tau = 101$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau118.png}
+    \caption{$\tau = 102$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau119.png}
+    \caption{$\tau = 102$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau120.png}
+    \caption{$\tau = 103$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau121.png}
+    \caption{$\tau = 104$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau122.png}
+    \caption{$\tau = 105$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau123.png}
+    \caption{$\tau = 106$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau124.png}
+    \caption{$\tau = 107$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau125.png}
+    \caption{$\tau = 108$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau126.png}
+    \caption{$\tau = 109$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau127.png}
+    \caption{$\tau = 109$~a.u.}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}{0.2440\textwidth}
+    \includegraphics[width=\textwidth]{prj_2d_momentum_log_filled_tau128.png}
+    \caption{$\tau = 110$~a.u.}
+  \end{subfigure}%
+  \par\vspace{4pt}
+  \caption{Photoelectron momentum distributions at each time delay.
+           $N_\alpha = 1$, Husimi-Q (diagonal).}
+  \label{fig:momentum}
+\end{figure}
+
+\end{document}

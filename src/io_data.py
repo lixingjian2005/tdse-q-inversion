@@ -34,20 +34,29 @@ def read_v51_probability(
     if data.ndim == 1:
         data = data.reshape(1, -1)
 
-    # Columns: itau(0), tau(1), ik(2), k(3), itheta(4), theta(5),
-    #          iphi(6), phi(7), prob(8)
-    tau_vals = data[:, 1]
-    k_vals = data[:, 3]
-    prob_vals = data[:, 8]
+    n_cols = data.shape[1]
+
+    if n_cols >= 9:
+        # 9-column format: itau(0), tau(1), ik(2), k(3), itheta(4), theta(5),
+        #                  iphi(6), phi(7), prob(8)
+        tau_vals = data[:, 1]
+        k_vals = data[:, 3]
+        prob_vals = data[:, 8]
+        need_sum = True  # sum over theta, phi
+    elif n_cols >= 5:
+        # 5-column summary format: itau(0), tau(1), ik(2), k(3), prob(4)
+        tau_vals = data[:, 1]
+        k_vals = data[:, 3]
+        prob_vals = data[:, 4]
+        need_sum = False  # already summed
+    else:
+        raise ValueError(f"Unknown format: {n_cols} columns")
 
     tau_array = np.unique(tau_vals)
     k_array = np.unique(k_vals)
     n_tau, n_k = len(tau_array), len(k_array)
 
-    # Build matrix: sum over theta,phi for each (tau, k)
     p_matrix = np.zeros((n_tau, n_k))
-
-    # Map values to indices
     tau_to_idx = {t: i for i, t in enumerate(tau_array)}
     k_to_idx = {k: i for i, k in enumerate(k_array)}
 

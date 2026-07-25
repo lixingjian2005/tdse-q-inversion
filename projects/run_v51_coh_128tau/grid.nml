@@ -1,0 +1,27 @@
+! ============================================================================
+! Fast: dt=0.10, n_steps=1250 — same total propagation
+! ============================================================================
+&tdse
+  n_elem = 15
+  n_lobatto = 5
+  l_max = 6
+  m_max = 0
+  r_max = 60.0
+
+  dt = 0.05
+  n_steps = 2500
+  use_velocity_gauge = .true.
+
+  mask_rc = 45.0
+  mask_delta = 4.0
+
+  krylov_tol = 1.0e-10
+  krylov_dim = 12
+  max_halving = 8
+
+  use_ham_split = .true.
+  split_l = 1
+  split_r_cut = 15.0
+
+  use_gpu = .false.
+/

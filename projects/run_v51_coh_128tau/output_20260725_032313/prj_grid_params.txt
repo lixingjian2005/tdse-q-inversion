@@ -1,0 +1,63 @@
+# Grid & numerical parameters for TDSE streaking scan
+input_path=/mnt/c/fortran/三维TDSE/v1.0-q-inversion/projects/run_v51_coh_128tau/_run_merged.nml
+output_dir=/mnt/c/fortran/三维TDSE/v1.0-q-inversion/projects/run_v51_coh_128tau/output_20260725_032313
+# --- Radial grid ---
+n_elem=8
+n_lobatto=5
+l_max=3
+m_max=0
+r_max=  4.0000000000000000E+01
+grid_mode=uniform
+near_elem_count=0
+near_elem_width=  0.0000000000000000E+00
+far_elem_count=0
+far_elem_width=  0.0000000000000000E+00
+# --- Time ---
+dt=  5.0000000000000003E-02
+n_steps=2500
+# --- Mask ---
+mask_rc=  3.0000000000000000E+01
+mask_delta=  4.0000000000000000E+00
+# --- Hamiltonian split ---
+use_ham_split=T
+split_l=1
+split_r_cut=  1.0000000000000000E+01
+# --- Krylov propagator ---
+krylov_tol=  1.0000000000000000E-10
+krylov_dim=12
+max_halving=8
+# --- Momentum grid ---
+n_k=50
+k_min=  5.0000000000000001E-03
+k_max=  1.4701000000000002E+00
+n_theta=31
+n_phi=1
+momentum_grid_mode=mature_left
+# --- Projection ---
+projection_interval_steps=250
+# --- Dynamic l_max ---
+dyn_l_max=F
+dyn_l_threshold=  1.0000000000000000E-08
+dyn_l_max_limit=0
+# --- Alpha sampling ---
+n_alpha=1
+alpha_abs=  1.0000000000000000E+00
+alpha_phase_min=  0.0000000000000000E+00
+alpha_phase_span=  6.2831853071795862E+00
+sample_coherence=  0.0000000000000000E+00
+nir_sample_file=/mnt/c/fortran/三维TDSE/v1.0-q-inversion/projects/run_v51_coh_128tau/alpha.dat
+nir_weight_file=
+# --- Imaginary time ---
+imaginary_n_steps=100
+imaginary_dtau=  1.0000000000000000E-04
+imaginary_convergence_tol=  1.0000000000000000E-10
+imaginary_krylov_dim=24
+imaginary_krylov_tol=  1.0000000000000000E-13
+imaginary_diagnostic_interval=1
+# --- Hardware ---
+use_gpu=T
+n_mpi_ranks=1
+# --- Scan dimensions ---
+n_tau=128
+tau_min=  0.0000000000000000E+00
+tau_max=  1.1026400000000000E+02

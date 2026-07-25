@@ -1,0 +1,5 @@
+# alpha_index alpha_real alpha_imag alpha_abs
+       1   2.0000000000000000E+00   0.0000000000000000E+00   2.0000000000000000E+00
+ 
+# weight_i weight_j weight_real weight_imag weight_abs2
+       1        1   1.0000000000000000E+00   0.0000000000000000E+00   1.0000000000000000E+00
