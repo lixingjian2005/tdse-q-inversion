@@ -211,8 +211,8 @@ class QInvConfig:
         """
         import re
 
-        # Find group block: &name ... /
-        pattern = rf"&{group_name}(.*?)/"
+        # Find group block: &name ... / (terminator on its own line)
+        pattern = rf"&{group_name}\s*\n(.*?)\n\s*/"
         match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
         if not match:
             return defaults
